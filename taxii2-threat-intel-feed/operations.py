@@ -163,13 +163,13 @@ def get_objects_by_collection_id(config, params, **kwargs):
     mode = params.get('output_mode')
     query_params = {k: params[k] for k in params.keys() & wanted_keys}
     try:
-        response = taxii.make_request(endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects',
+        response = taxii.make_request(endpoint=api_root + '/collections/' + str(params['collectionID']) + '/objects',
                                       params=query_params, headers=headers)
         if params.get('fetch_all_records'):
             result = response
             next_key = response.get('next')
             while next_key:
-                response = taxii.make_request(endpoint=api_root + 'collections/' + str(params['collectionID']) + '/objects'+'?next={}'.format(next_key),
+                response = taxii.make_request(endpoint=api_root + '/collections/' + str(params['collectionID']) + '/objects'+'?next={}'.format(next_key),
                     params=query_params, headers=headers)
                 result['objects'].extend(response.get('objects'))
                 next_key = response.json().get('next')
